@@ -2,13 +2,13 @@
 const express = require("express");
 const axios = require("axios");
 const { MongoClient } = require("mongodb");
-
+require("dotenv").config()
 // Initialize Express app
 const app = express();
 const port = 3000;
 
 // MongoDB connection URI
-const uri = "mongodb://127.0.0.1:27017";
+const uri = process.env.uri
 const dbName = "your_database";
 const collectionName = "ticker_data";
 
