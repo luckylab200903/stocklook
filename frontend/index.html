@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Data from Express Server</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div class="heading">
+        <h1 class="head">HODINFO</h1>
+        <div class="telegram-container">
+            <span class="logos--telegram"></span>
+            <p class="telegram-text">Connect Telegram</p>
+        </div>
+    </div>
+    <div class="bodystruct">
+        <table id="tickersTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Last</th>
+                    <th>Buy</th>
+                    <th>Sell</th>
+                    <th>Volume</th>
+                    <th>Base Unit</th>
+                </tr>
+            </thead>
+            <tbody id="tickersList"></tbody> <!-- tbody element to hold the list -->
+        </table>
+    </div>
+
+    <script>
+        // Function to fetch data from Express server
+        async function fetchData() {
+            try {
+                const response = await fetch('http://localhost:3000/tickers');
+                const data = await response.json();
+                const tickersList = document.getElementById('tickersList');
+                
+                data.forEach(ticker => {
+                    const row = document.createElement('tr'); // create table row
+                    
+                    // Create table data cells for each attribute detail
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = ticker.name;
+                    const lastCell = document.createElement('td');
+                    lastCell.textContent = ticker.last;
+                    const buyCell = document.createElement('td');
+                    buyCell.textContent = ticker.buy;
+                    const sellCell = document.createElement('td');
+                    sellCell.textContent = ticker.sell;
+                    const volumeCell = document.createElement('td');
+                    volumeCell.textContent = ticker.volume;
+                    const baseUnitCell = document.createElement('td');
+                    baseUnitCell.textContent = ticker.base_unit;
+                    
+                    // Append cells to the row
+                    row.appendChild(nameCell);
+                    row.appendChild(lastCell);
+                    row.appendChild(buyCell);
+                    row.appendChild(sellCell);
+                    row.appendChild(volumeCell);
+                    row.appendChild(baseUnitCell);
+                    
+                    tickersList.appendChild(row); // append row to table body
+                });
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        window.onload = fetchData;
+    </script>
+</body>
+</html>
